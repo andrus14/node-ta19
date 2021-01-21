@@ -1,6 +1,6 @@
 # Laevade pommitamine w/ chat
 
-** Stack **
+**Stack**
 - Node JS / JS / npm
 - Express (Node JS framework)
 - Socket.io
@@ -8,14 +8,14 @@
 
 --------------------------------
 
-** Mida meil vaja on **
+**Mida meil vaja on**
 - Kasutaja registreerimine ( login / logout )
 - Andmebaas
 - Chat ( Lobby / Private)
 
 ________________________________
 
-** User Story **
+**User Story**
 
 - Alusta mängu kahe mängija vahel ( Laevade pommitamine )
     - Väljakutse esitamine

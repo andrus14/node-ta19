@@ -12,11 +12,13 @@ const connectRedis = require('connect-redis');
 var bodyParser = require('body-parser');
 const path = require('path');
 
+const port = 8000
+
 // config
+app.use('/public', express.static('./public/'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use('/public', express.static(path.join(__dirname, '/public')));
 
 // redis server
 const RedisStore = connectRedis(session);
@@ -34,7 +36,7 @@ redisClient.on('connect', function (err) {
   console.log('Connected to redis successfully');
 });
 
-const sessionMiddleWare = session({
+const sessionMiddleware = session({
   store: new RedisStore({ client: redisClient }),
   secret: 'secret$%^134',
   resave: false,
@@ -46,11 +48,11 @@ const sessionMiddleWare = session({
   }
 });
 
-app.use(sessionMiddleWare);
+app.use(sessionMiddleware);
 
-// io.use((socket, next) => {
-//   sessionMiddleware(socket.request, {}, next);
-// });
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, {}, next);
+});
 
 app.get("/", (req, res) => {
   sess = req.session;
@@ -92,7 +94,7 @@ io.on('connection', (socket) => {
     });
 });
 
-http.listen(8000, () => {
-  console.log('listening on *:3000');
+http.listen(port, () => {
+  console.log('listening on *:' + port);
 });
 

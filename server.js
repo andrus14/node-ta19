@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const socketio = require('socket.io');
+const io = socketio(http)
 
 const session = require('express-session');
 const redis = require('redis');
@@ -47,6 +48,10 @@ const sessionMiddleWare = session({
 
 app.use(sessionMiddleWare);
 
+// io.use((socket, next) => {
+//   sessionMiddleware(socket.request, {}, next);
+// });
+
 app.get("/", (req, res) => {
   sess = req.session;
   if (sess.username && sess.password) {
@@ -77,14 +82,17 @@ app.get("/logout", (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    console.log(socket.id, 'a user connected');
+    // const sess = socket.request.session
+
+    // console.log(sess.username, socket.id, 'a user connected');
+
     io.emit('connection', socket.id);
     socket.on('chat_message', (msg) => {
         io.emit('chat_message', msg);
     });
 });
 
-http.listen(3000, () => {
+http.listen(8000, () => {
   console.log('listening on *:3000');
 });
 

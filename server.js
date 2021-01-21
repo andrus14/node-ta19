@@ -102,8 +102,9 @@ io.on('connection', (socket) => {
     userList[sess.username] = socket.id;
     io.emit('updateUserList', userList);
 
-    socket.on('chat_message', (msg) => {
-        io.emit('chat_message', msg);
+    socket.on('chat_message', msg => {
+      console.log(msg)
+        io.emit('chat_message', {'message': msg, 'socketId': socket.id});
     });
 
     socket.on('disconnect', () => {

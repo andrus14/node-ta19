@@ -2,7 +2,7 @@
 
 **Stack**
 - Node JS / JS / npm
-- Express (Node JS framework)
+- Express (Node JS framework)b
 - Socket.io
 - Redis
 

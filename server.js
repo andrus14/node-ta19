@@ -12,7 +12,9 @@ const connectRedis = require('connect-redis');
 var bodyParser = require('body-parser');
 const path = require('path');
 
-const port = 8000
+const port = 8000;
+
+const userList = {};
 
 // config
 app.use('/public', express.static('./public/'));
@@ -68,10 +70,21 @@ app.get("/", (req, res) => {
 
 app.post("/login", (req, res) => {
   sess = req.session;
-  sess.username = req.body.username
-  sess.password = req.body.password
+  sess.username = req.body.username;
+  sess.password = req.body.password;
   // add username and password validation logic here if you want. If user is authenticated send the response as success
-  res.end("success")
+  res.end("success");
+});
+
+app.post("/register", (req, res) => {
+  console.log(req.body.username, req.body.password, 'register');
+
+  // if ( on juba kasutajanimi kasutuses) { // siin peab uurima, kuidas redis baasist kontrollida, kas on kasutajnimi juba kasutuses
+  //   res.end("userNameInUse");
+  // } else {
+    // salvesta baasi
+  //   res.end("success");
+  // }
 });
 
 app.get("/logout", (req, res) => {
@@ -84,13 +97,19 @@ app.get("/logout", (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    // const sess = socket.request.session
+    // on connection
+    const sess = socket.request.session
+    userList[sess.username] = socket.id;
+    io.emit('updateUserList', userList);
 
-    // console.log(sess.username, socket.id, 'a user connected');
-
-    io.emit('connection', socket.id);
     socket.on('chat_message', (msg) => {
         io.emit('chat_message', msg);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('user ' + socket.id + ' disconnected');
+      delete userList[sess.username];
+      io.emit('updateUserList', userList);
     });
 });
 

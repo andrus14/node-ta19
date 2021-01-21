@@ -3,13 +3,13 @@
     <title>User Login</title>
   </head>
   <body>
+    <h1>Register</h1>
+
     Username:
     <input type="text" id="username" /><br />
     Password :
     <input type="password" id="password" /><br />
     <input type="button" value="Submit" id="submit" />
-
-    <a href="/public/register.html">Register</a>
   </body>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <script>
@@ -18,11 +18,11 @@
       $("#submit").click(function () {
         username = $("#username").val();
         password = $("#password").val();
-$.post("/login", { username: username, password: password }, function (
-          data
-        ) {
+        $.post("/register", { username: username, password: password }, function (data) {
           if (data === "success") {
             window.location.href = "/";
+          } else if ( data === "userNameInUse" ) {
+// anna kasutajale teada, et kasutajanimi on kasutuses            
           }
         });
       });

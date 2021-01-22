@@ -58,6 +58,8 @@ io.use((socket, next) => {
 
 app.get("/", (req, res) => {
     sess = req.session;
+    console.log(req.session.id);
+
     if (sess.username && sess.password) {
         sess = req.session;
         if (sess.username) {
@@ -78,12 +80,35 @@ app.post("/login", (req, res) => {
 
 app.post("/register", (req, res) => {
     console.log(req.body.username, req.body.password, 'register');
-  
 
-  // if ( on juba kasutajanimi kasutuses) { // siin peab uurima, kuidas redis baasist kontrollida, kas on kasutajnimi juba kasutuses
-  //   res.end("userNameInUse");
-  // } else {
+    redisClient.hgetall('users', (err, result) => {
+        if (req.body.username in result) {
+            res.end("userNameInUse");
+        } else {
+            console.log('register')
 
+        }
+    });
+
+    /**
+
+    const sessionKey = `sess:${req.session.id}`;
+    redisClient.get(sessionKey, (err, data) => {
+        console.log('session data in redis:', data)
+    });
+    redisClient.hset('users', 'andrus', 'test');
+    redisClient.hset('users', 'andrus14', '123');
+
+
+         */
+
+    // if ( on juba kasutajanimi kasutuses) { // siin peab uurima, kuidas redis baasist kontrollida, kas on kasutajnimi juba kasutuses
+    //   res.end("userNameInUse");
+    // } else {
+
+    // if ( on juba kasutajanimi kasutuses) { // siin peab uurima, kuidas redis baasist kontrollida, kas on kasutajnimi juba kasutuses
+    //   res.end("userNameInUse");
+    // } else {
     // salvesta baasi
     //   res.end("success");
     // }
@@ -105,8 +130,10 @@ io.on('connection', (socket) => {
     io.emit('updateUserList', userList);
 
     socket.on('chat_message', msg => {
-        console.log(msg)
-        io.emit('chat_message', { 'message': msg, 'socketId': socket.id, 'user': sess.username });
+        console.log(msg) <<
+
+            io.emit('chat_message', { 'message': msg, 'socketId': socket.id, 'user': sess.username });
+        io.emit('chat_message', { 'message': msg, 'socketId': socket.id });
     });
 
     socket.on('disconnect', () => {

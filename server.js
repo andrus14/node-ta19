@@ -104,7 +104,7 @@ io.on('connection', (socket) => {
 
     socket.on('chat_message', msg => {
         console.log(msg)
-        io.emit('chat_message', { 'message': msg, 'socketId': socket.id });
+        io.emit('chat_message', { 'message': msg, 'socketId': socket.id, 'user': sess.username });
     });
 
     socket.on('disconnect', () => {

@@ -83,35 +83,12 @@ app.post("/register", (req, res) => {
 
     redisClient.hgetall('users', (err, result) => {
         if (req.body.username in result) {
-            res.end("userNameInUse");
+            res.end('errorUserExists');
         } else {
-            console.log('register')
-
+            redisClient.hset('users', req.body.username, req.body.password);
+            res.end('success');
         }
     });
-
-    /**
-
-    const sessionKey = `sess:${req.session.id}`;
-    redisClient.get(sessionKey, (err, data) => {
-        console.log('session data in redis:', data)
-    });
-    redisClient.hset('users', 'andrus', 'test');
-    redisClient.hset('users', 'andrus14', '123');
-
-
-         */
-
-    // if ( on juba kasutajanimi kasutuses) { // siin peab uurima, kuidas redis baasist kontrollida, kas on kasutajnimi juba kasutuses
-    //   res.end("userNameInUse");
-    // } else {
-
-    // if ( on juba kasutajanimi kasutuses) { // siin peab uurima, kuidas redis baasist kontrollida, kas on kasutajnimi juba kasutuses
-    //   res.end("userNameInUse");
-    // } else {
-    // salvesta baasi
-    //   res.end("success");
-    // }
 });
 
 app.get("/logout", (req, res) => {

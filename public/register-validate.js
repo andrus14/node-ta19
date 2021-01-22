@@ -1,4 +1,5 @@
 const submit = document.getElementById("register-button");
+const regex = '/^[a-zA-Z]*$/g';
 
 submit.addEventListener("click", validate);
 
@@ -9,7 +10,7 @@ function validate(e) {
   const password = document.getElementById("password").value;
   const passwordAgain = document.getElementById("password-again").value;
 
-  if (!username || username === '') {
+  if (!username || username === '' || username.length < 6) {
     const nameError = document.getElementById("username-error");
     nameError.innerHTML = `
         <p class="text-red-500">Username not valid!</p>

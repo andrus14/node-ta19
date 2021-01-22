@@ -26,7 +26,7 @@ messageInput.focus();
 // </div>`;
 
 messageInput.addEventListener('keydown', event => {
-    if ( event.key == 'Enter'){
+    if ( event.key == 'Enter' && messageInput.value.trim() !== '' ){
         socket.emit('chat_message', messageInput.value);
         messageInput.value = '';
     }
@@ -81,7 +81,7 @@ socket.on('chat_message', msgObj => {
                 </div>
             </div>
     `
-    }
+    } 
     chatMessages.appendChild(item);
     // item.textContent = msg;
 });

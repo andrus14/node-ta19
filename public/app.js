@@ -65,4 +65,11 @@ socket.on('chat_message', msgObj => {
     }
     chatMessages.appendChild(item);
     // item.textContent = msg;
+
+    
 });
+
+document.getElementById('logout').onclick = function() {
+        console.log('logout');
+        location.href = '/logout';
+    };

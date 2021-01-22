@@ -23,14 +23,20 @@ messageInput.focus();
 //         </div>
 //     </div>
 // </div>`;
+function clickEvent(){
+    if (messageInput.value.trim() !== '' ){
+        socket.emit('chat_message', messageInput.value);
+        messageInput.value = '';
+    }
 
+}
 messageInput.addEventListener('keydown', event => {
     if ( event.key == 'Enter' && messageInput.value.trim() !== '' ){
         socket.emit('chat_message', messageInput.value);
         messageInput.value = '';
     }
-});
 
+});
 socket.on('connection', userId => {
     const item = document.createElement('li');
     item.textContent = 'User ' + userId + ' connected';

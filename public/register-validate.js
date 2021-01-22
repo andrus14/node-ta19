@@ -23,7 +23,7 @@ function validate(e) {
     `
   }
 
-  if(!password === passwordAgain) {
+  if(password !== passwordAgain) {
     const passwordAgainError = document.getElementById("password-again-error");
     passwordAgainError.innerHTML = `
         <p class="text-red-500">Password must be the same!</p>

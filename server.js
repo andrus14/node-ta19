@@ -71,9 +71,26 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    sess = req.session;
-    sess.username = req.body.username;
-    sess.password = req.body.password;
+    redisClient.hgetall('users', (err, result) => {
+
+        let isSuccess = false;
+
+        if (req.body.username in result) {
+            if (result[req.body.username] == req.body.password) {
+                isSuccess = true;
+            }
+        }
+
+        if (isSuccess) {
+            sess = req.session;
+            sess.username = req.body.username;
+            sess.password = req.body.password;
+            res.end('success');
+        } else {
+            res.end('errorWrongCredentials');
+        }
+    });
+
     // add username and password validation logic here if you want. If user is authenticated send the response as success
     res.end("success");
 });
@@ -82,11 +99,22 @@ app.post("/register", (req, res) => {
     console.log(req.body.username, req.body.password, 'register');
 
     redisClient.hgetall('users', (err, result) => {
-        if (req.body.username in result) {
-            res.end('errorUserExists');
+        let isSuccess = false;
+        if (result) {
+            if (req.body.username in result) {
+                isSuccess = false
+            }
+            isSuccess = true;
         } else {
+            isSuccess = true;
+
+        }
+        if (isSuccess) {
             redisClient.hset('users', req.body.username, req.body.password);
             res.end('success');
+        } else {
+            res.end('errorUserExists');
+
         }
     });
 });

@@ -41,7 +41,7 @@ redisClient.on('connect', function(err) {
 const sessionMiddleware = session({
     store: new RedisStore({ client: redisClient }),
     secret: 'secret$%^134',
-    resave: false,
+    resave: true,
     saveUninitialized: false,
     cookie: {
         secure: false, // if true only transmit cookie over https
@@ -58,7 +58,7 @@ io.use((socket, next) => {
 
 app.get("/", (req, res) => {
     sess = req.session;
-    console.log(req.session.id);
+    console.log('sess id:', req.session.id, sess.username, sess.password);
 
     if (sess.username && sess.password) {
         sess = req.session;
@@ -85,14 +85,13 @@ app.post("/login", (req, res) => {
             sess = req.session;
             sess.username = req.body.username;
             sess.password = req.body.password;
+            console.log('login', req.body.username, req.body.password, sess.username, sess.password);
             res.end('success');
         } else {
             res.end('errorWrongCredentials');
         }
     });
 
-    // add username and password validation logic here if you want. If user is authenticated send the response as success
-    res.end("success");
 });
 
 app.post("/register", (req, res) => {

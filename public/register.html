@@ -8,11 +8,6 @@
   <title>Register</title>
 </head>
 <body>
-<div class="absolute w-full flex justify-center">
-  <div class="px-8 py-4 mt-4 rounded bg-red-500 text-center">
-    <p class="text-white">Error Message</p>
-  </div>
-</div>
 <div class="w-screen h-screen bg-gray-900 flex justify-center items-center">
   <div class="max-w-sm mx-auto px-6">
         <div class="relative flex flex-wrap">
@@ -21,28 +16,24 @@
                     <div class="font-semibold text-white text-2xl">
                         Register
                     </div>
-                    <form class="mt-8" x-data="{password: '',password_confirm: ''}">
+                    <form class="mt-8">
                         <div class="mx-auto max-w-lg ">
                             <div class="py-1">
                                 <span class="px-1 text-sm text-gray-600">Username</span>
-                                <input placeholder="" type="text"
-                                       class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in">
+                                <input id="username" name="username" type="text" class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in">
+                                <span id="username-error"></span>
                             </div>
                             <div class="py-1">
                                 <span class="px-1 text-sm text-gray-600">Password</span>
-                                <input placeholder="" type="password" x-model="password"
-                                       class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in">
+                                <input id="password" type="password" class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in">
+                                <span id="password-error"></span>
                             </div>
                             <div class="py-1">
                                 <span class="px-1 text-sm text-gray-600">Password Confirm</span>
-                                <input placeholder="" type="password" x-model="password_confirm"
-                                       class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in">
+                                <input id="password-again" type="password" class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in">
+                                <span id="password-again-error"></span>
                             </div>
-                            <button id="register-button" class="mt-3 text-lg font-semibold
-            bg-gray-700 w-full text-white rounded-lg
-            px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
-                                Register
-                            </button>
+                            <button type="submit" id="register-button" class="mt-3 text-lg font-semibold bg-gray-700 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black">Register</button>
                         </div>
                     </form>
                 </div>
@@ -50,5 +41,6 @@
         </div>
     </div>
 </div>
+<script src="/public/register-validate.js"></script>
 </body>
 </html>

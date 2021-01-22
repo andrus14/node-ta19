@@ -1,31 +1,73 @@
-<html>
-  <head>
-    <title>User Login</title>
-  </head>
-  <body>
-    Username:
-    <input type="text" id="username" /><br />
-    Password :
-    <input type="password" id="password" /><br />
-    <input type="button" value="Submit" id="submit" />
+<!DOCTYPE html>
+<html lang="en">
 
-    <a href="/public/register.html">Register</a>
-  </body>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script>
-    jQuery(document).ready(function ($) {
-      var email, pass;
-      $("#submit").click(function () {
-        username = $("#username").val();
-        password = $("#password").val();
-$.post("/login", { username: username, password: password }, function (
-          data
-        ) {
-          if (data === "success") {
-            window.location.href = "/";
-          }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/style.css">
+    <title>Login</title>
+</head>
+
+<body>
+    <!-- <div class="absolute w-full flex justify-center">
+        <div class="px-8 py-4 mt-4 rounded bg-red-500 text-center">
+            <p class="text-white">Error Message</p>
+        </div>
+    </div> -->
+    <div class="w-screen h-screen bg-gray-900 flex justify-center items-center">
+        <div class="max-w-sm mx-auto px-6">
+            <div class="relative flex flex-wrap">
+                <div class="w-full relative">
+                    <div class="md:mt-6">
+                        <form class="mt-8" x-data="{password: '',password_confirm: ''}">
+                            <div class="mx-auto max-w-lg">
+                                <div class="py-1">
+                                    <span class="px-1 text-sm text-gray-600">Username</span>
+                                    <input placeholder="" id="username" type="text" class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in" />
+                                </div>
+                                <div class="py-1">
+                                    <span class="px-1 text-sm text-gray-600">Password</span>
+                                    <input placeholder="" id="password" type="password" x-model="password" class="rounded py-2 pl-3 pr-10 w-full border border-gray-800 focus:border-gray-700 bg-gray-800 focus:bg-gray-900 focus:outline-none text-gray-200 focus:shadow-md transition duration-300 ease-in"
+                                    />
+                                </div>
+                                <div class="flex flex-row gap-2">
+                                    <button id="submit" class="mt-3 text-lg font-semibold bg-gray-700 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
+                                  Login
+                                </button>
+                                    <a href="/public/register.html" id="register-button" class="mt-3 text-lg font-semibold bg-gray-700 w-full text-white rounded-lg px-6 py-3 block shadow-xl hover:text-white hover:bg-black">
+                                Register
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script>
+    jQuery(document).ready(function($) {
+        var email, pass;
+        $("#submit").click(function() {
+            console.log(123)
+            username = $("#username").val();
+            password = $("#password").val();
+            $.post(
+                "/login", {
+                    username: username,
+                    password: password
+                },
+                function(data) {
+                    if (data === "success") {
+                        window.location.href = "/";
+                    }
+                }
+            );
         });
-      });
     });
-  </script>
+</script>
+
 </html>

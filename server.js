@@ -79,6 +79,8 @@ app.post("/login", (req, res) => {
 app.post("/register", (req, res) => {
   console.log(req.body.username, req.body.password, 'register');
 
+  
+
   // if ( on juba kasutajanimi kasutuses) { // siin peab uurima, kuidas redis baasist kontrollida, kas on kasutajnimi juba kasutuses
   //   res.end("userNameInUse");
   // } else {
@@ -117,4 +119,3 @@ io.on('connection', (socket) => {
 http.listen(port, () => {
   console.log('listening on *:' + port);
 });
-

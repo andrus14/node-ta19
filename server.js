@@ -71,6 +71,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
+    console.log(req.body);
     redisClient.hgetall('users', (err, result) => {
 
         let isSuccess = false;
@@ -86,12 +87,11 @@ app.post("/login", (req, res) => {
             sess.username = req.body.username;
             sess.password = req.body.password;
             console.log('login', req.body.username, req.body.password, sess.username, sess.password);
-            res.end('success');
+            res.json({response: 'success'});
         } else {
-            res.end('errorWrongCredentials');
+            res.json({response: 'errorWrongCredentials'});
         }
     });
-
 });
 
 app.post("/register", (req, res) => {
@@ -110,9 +110,9 @@ app.post("/register", (req, res) => {
         }
         if (isSuccess) {
             redisClient.hset('users', req.body.username, req.body.password);
-            res.end('success');
+            res.json({response: 'success'});
         } else {
-            res.end('errorUserExists');
+            res.json({response: 'errorUserExists'});
 
         }
     });
@@ -134,10 +134,7 @@ io.on('connection', (socket) => {
     io.emit('updateUserList', userList);
 
     socket.on('chat_message', msg => {
-        console.log(msg) <<
-
-            io.emit('chat_message', { 'message': msg, 'socketId': socket.id, 'user': sess.username });
-        io.emit('chat_message', { 'message': msg, 'socketId': socket.id });
+        io.emit('chat_message', { 'message': msg, 'socketId': socket.id, 'user': sess.username });
     });
 
     socket.on('disconnect', () => {

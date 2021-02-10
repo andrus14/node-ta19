@@ -134,7 +134,21 @@ io.on('connection', (socket) => {
     io.emit('updateUserList', userList);
 
     socket.on('chat_message', msg => {
-        io.emit('chat_message', { 'message': msg, 'socketId': socket.id, 'user': sess.username });
+        if ( msg.charAt(0) == '/' ) { // we have a command
+            const command = msg.split(' ')[0];
+
+            if ( command == '/w' ) {
+                const user = msg.split(' ')[1];
+                const privateMsg = msg.split(' ').slice(2).join(' ');
+                if ( userList[user] != undefined ) {
+                    io.to(userList[user]).emit('whisper', {msg: privateMsg, sender: sess.username});
+                } else {
+                    socket.emit('error_whisper', 'Kasutajat pole olemas');
+                }
+            }
+        } else {
+            io.emit('chat_message', { 'message': msg, 'socketId': socket.id, 'user': sess.username });
+        }
     });
 
     socket.on('disconnect', () => {
